@@ -1,3 +1,4 @@
+"use client";
 import {
   ButtonComponent,
   Trainers,
@@ -5,7 +6,10 @@ import {
   Gyms,
   Nav,
 } from "@/components/shared";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const whyLinks = [
   {
@@ -26,6 +30,7 @@ const whyLinks = [
 ];
 
 export default function HomePage() {
+  const router = useRouter();
   return (
     <main className='h-full'>
       <section className='min-h-[95vh] bg-banner z-0 relative bg-left-bottom sm:bg-center sm:bg-no-repeat bg-cover'>
@@ -65,6 +70,7 @@ export default function HomePage() {
               Trainers and Coaches
             </h2>
             <ButtonComponent
+              onClick={() => router.push("/trainers")}
               className='font-inter px-6 sm:px-[34px] font-bold h-[35px] sm:h-[55px]'
               text='See all'
             />
@@ -78,7 +84,9 @@ export default function HomePage() {
             <h2 className='font-inter text-xl sm:text-3xl font-extrabold'>
               Gyms and Studios
             </h2>
+
             <ButtonComponent
+              onClick={() => router.push("/gym")}
               className='font-inter px-6 sm:px-[34px] font-bold h-[35px] sm:h-[55px]'
               text='See all'
             />

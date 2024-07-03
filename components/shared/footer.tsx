@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import { ButtonComponent } from "./button-component";
 import Link from "next/link";
 import { ScrollToTop } from "./scroll-to-top-button";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const links = [
   {
@@ -11,7 +14,7 @@ const links = [
   },
   {
     label: "TRAINERS",
-    href: "/contact",
+    href: "/trainers",
   },
   {
     label: "CONTACT",
@@ -24,7 +27,7 @@ interface IProps {
 }
 
 export const Footer = ({ isContactUsPage = false }: IProps) => {
-  console.log("isContactUsPage", isContactUsPage);
+  const router = useRouter();
   return (
     <footer className='w-full text-white/60  pb-[70px] bg-[#161717]'>
       <div className='max-w-screen-xl mx-auto px-6'>
@@ -38,7 +41,12 @@ export const Footer = ({ isContactUsPage = false }: IProps) => {
                 alt='Ker Active Logo'
               />
             </div>
-            <ButtonComponent className='h-[48px]' hasIcon text='GET IN TOUCH' />
+            <ButtonComponent
+              onClick={() => router.push("/contact")}
+              className='h-[48px]'
+              hasIcon
+              text='GET IN TOUCH'
+            />
           </div>
         )}
 
