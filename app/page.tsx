@@ -25,7 +25,7 @@ const whyLinks = [
   },
 ];
 
-export default function Home() {
+export default function HomePage() {
   return (
     <main className='h-full'>
       <section className='min-h-[95dvh] bg-banner z-0 relative bg-left-bottom sm:bg-center sm:bg-no-repeat bg-cover'>
