@@ -32,7 +32,7 @@ const SocialMedia = ({ className }: HTMLAttributes<HTMLDivElement>) => {
 export default function ContactPage() {
   return (
     <main className='h-full'>
-      <section className='min-h-[80dvh] bg-contact-banner  z-0 relative bg-right-bottom sm:bg-center sm:bg-no-repeat bg-cover'>
+      <section className='min-h-[80vh] bg-contact-banner  z-0 relative bg-right-bottom sm:bg-center sm:bg-no-repeat bg-cover'>
         <Nav />
       </section>
       <section className='bg-up-rough text-[#2D2C2A] -mt-36 sm:-mt-20 bg-top bg-cover relative z-10 pb-[100px] pt-[120px] sm:pt-[160px]'>
