@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Suspense } from "react";
 
 const whyLinks = [
   {
@@ -41,8 +42,16 @@ export default function HomePage() {
               THE BIGGEST ACTIVE COMMUNITY IN NIGERIA
             </h1>
             <div className='flex flex-row gap-[20px] items-center'>
-              <ButtonComponent hasIcon text='CREATE ACCOUNT' />
-              <ButtonComponent hasIcon text='JOIN AS A TRAINER' />
+              <ButtonComponent
+                onClick={() => window.open("https://ker-user.vercel.app")}
+                hasIcon
+                text='CREATE ACCOUNT'
+              />
+              <ButtonComponent
+                onClick={() => window.open("https://ker-trainer.vercel.app")}
+                hasIcon
+                text='JOIN AS A TRAINER'
+              />
             </div>
           </header>
 
@@ -75,7 +84,9 @@ export default function HomePage() {
               text='See all'
             />
           </header>
-          <Trainers />
+          <Suspense fallback={null}>
+            <Trainers />
+          </Suspense>
         </section>
 
         {/* Gyms and studios */}
@@ -91,7 +102,9 @@ export default function HomePage() {
               text='See all'
             />
           </header>
-          <Gyms />
+          {/* <Suspense fallback={null}>
+            <Gyms />
+          </Suspense> */}
         </section>
 
         {/* BasketBall lady section */}
