@@ -25,3 +25,68 @@ interface SocialMedia {
   instagram: string;
   twitter: string;
 }
+
+export interface TTrainer {
+  _id: string;
+  fullname: string;
+  email: string;
+  phoneNumber: string;
+  isVerified: boolean;
+  userType: string;
+  password: string;
+  token: string;
+  createdAt: string;
+  __v: number;
+  services: string[];
+  anotherService: string[];
+  amenities: string[];
+  specialNeed: string[];
+  activities: string[];
+  media: string[];
+}
+
+export interface TGyms {
+  _id: string;
+  fullname: string;
+  email: string;
+  phoneNumber: string;
+  location: string;
+  isVerified: boolean;
+  userType: string;
+  media: string[];
+  services: string[];
+  amenities: string[];
+  activities: string[];
+  anotherService: string[];
+  specialNeed: string[];
+  professionalSummary?: string;
+  socialMedia: {
+    instagram?: string;
+    twitter?: string;
+    website?: string;
+  };
+  token: string;
+  verificationToken?: string;
+  resetPasswordToken?: string;
+  resetPasswordTokenExpires?: string;
+  createdAt: string;
+  password: string;
+  __v: number;
+}
+
+export interface TPaginationResponse<T> {
+  currentPage: number;
+  data: any[];
+  message: string;
+  success: boolean;
+  total: number;
+  totalPages: number;
+}
+
+export interface TFetchParams {
+  page?: number;
+  limit?: number;
+  service?: string;
+  location?: string;
+  search?: string;
+}

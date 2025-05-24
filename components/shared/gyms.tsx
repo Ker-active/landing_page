@@ -1,73 +1,158 @@
+"use client";
 import { cn } from "@/lib/utils";
-import { Star } from "lucide-react";
-import { HTMLAttributes } from "react";
+import type { TGyms } from "@/types";
+import { type HTMLAttributes } from "react";
+import { getGyms } from "@/actions/gyms";
+import { GymItem } from "./gymItem";
+import { usePathname } from "next/navigation";
+import { PageHeader } from "./page-header";
+import { PaginationComponent } from "./pagination-component";
+import { usePaginatedData } from "@/hooks/usePaginatedData";
+import { GymSkeletonLoader } from "./gym-skeleton";
 
+const pageURL: string = "/gym";
 interface IProps extends HTMLAttributes<HTMLUListElement> {
   showAll?: boolean;
-}
-
-const Gym = ({ className, showAll }: IProps) => {
-  return (
-    <li
-      style={{
-        background: `linear-gradient(180deg, rgba(49, 49, 49, 0) 0%, #313131 100%), url('/images/gyms.png')`,
-      }}
-      className={cn(
-        "w-full max-w-[387px] px-5 py-3 flex items-end  overflow-hidden rounded-[30px] h-[240px] relative",
-        className
-      )}
-      key={1}
-    >
-      <div className='flex w-full flex-row justify-between items-center'>
-        <div className='text-off-white'>
-          <p
-            className={cn(
-              "font-inter text-3xl font-bold",
-              showAll && "text-[14.5px]"
-            )}
-          >
-            Fitness Plus
-          </p>
-          <p className={cn(showAll ? "text-[10px]" : "text-sm")}>
-            15 mins away
-          </p>
-        </div>
-        <div
-          style={{
-            boxShadow: "0px 4.83px 29px 0px #00000033",
-            background:
-              "linear-gradient(142.59deg, rgba(217, 217, 217, 0.18) -18.46%, rgba(217, 217, 217, 0.23) 56.86%, rgba(217, 217, 217, 0) 122.24%)",
-          }}
-          className={cn(
-            "w-[72.5px] flex flex-row gap-1 font-inter items-center justify-center text-sm text-off-white h-[31px] rounded-[24px]",
-            showAll && "w-[54px] h-[23px]"
-          )}
-        >
-          <Star fill='#FFE142' size={showAll ? 14 : 17} color='#FFE142' />
-          <p className={cn("font-inter", showAll ? "text-[10px]" : "text-sm")}>
-            4.5
-          </p>
-        </div>
-      </div>
-    </li>
-  );
-};
-
-interface IProps {
-  showAll?: boolean;
+  gym?: TGyms;
 }
 
 export const Gyms = ({ showAll = false }: IProps) => {
+  const pathname = usePathname();
+
+  const {
+    dataList,
+    totalPages,
+    currentPage,
+    handlePageChange,
+    handleFilterChange,
+    isLoading,
+  } = usePaginatedData<TGyms>("/gym", getGyms);
+
+  const pagePathnameUrl = pathname === pageURL;
   return (
-    <ul
-      className={cn(
-        "grid grid-cols-auto-fit-three gap-8",
-        showAll && "grid-cols-auto-fit-gym-four"
+    <>
+      {pagePathnameUrl && (
+        <PageHeader
+          header="Gyms AND STUDIOS"
+          onFilterChange={handleFilterChange}
+        />
       )}
-    >
-      {Array.from({ length: showAll ? 36 : 6 }).map((_, i) => (
-        <Gym showAll={showAll} className={cn(showAll && "h-[181px]")} key={i} />
-      ))}
-    </ul>
+
+      {isLoading && <GymSkeletonLoader showAll={showAll} />}
+
+      {!isLoading && (
+        <ul
+          className={cn(
+            "grid grid-cols-auto-fit-three gap-8",
+            showAll && "grid-cols-auto-fit-gym-four"
+          )}
+        >
+          {dataList.map((gym, index) => {
+            if (!showAll && index >= 6) return null;
+            return (
+              <GymItem
+                gym={gym}
+                showAll={showAll}
+                className={cn(showAll && "h-[181px]")}
+                key={index}
+              />
+            );
+          })}
+        </ul>
+      )}
+
+      {pagePathnameUrl && totalPages > 1 && (
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
+    </>
   );
 };
+
+{
+  /* {pagePathnameUrl && <GymSkeletonLoader showAll={showAll} />}
+
+      <ul
+        className={cn(
+          "grid grid-cols-auto-fit-three gap-8",
+          showAll && "grid-cols-auto-fit-gym-four"
+        )}
+      >
+        {dataList.map((gym, index) => {
+          if (!showAll && index >= 6) return null;
+          return (
+            <GymItem
+              gym={gym}
+              showAll={showAll}
+              className={cn(showAll && "h-[181px]")}
+              key={index}
+            />
+          );
+        })}
+      </ul> */
+}
+
+// const pathname = usePathname();
+// const router = useRouter();
+// const params = useGetParams();
+
+// const currentPageFromURL =
+//   pathname === pageURL ? Number(params.page) || 1 : 1;
+
+// const [mainData, setMainData] = useState<TPaginationResponse | null>(null);
+// const [currentPage, setCurrentPage] = useState(currentPageFromURL);
+// const [filters, setFilters] = useState({
+//   service: params.service || "",
+//   location: params.location || "",
+//   search: params.search || "",
+// });
+
+// const fetchSeverData = useCallback(async () => {
+//   try {
+//     const data = await getGyms({
+//       page: currentPage,
+//       ...filters,
+//     });
+//     setMainData(data);
+//   } catch (error) {
+//     console.error("Failed to fetch server data:", error);
+//   }
+// }, [currentPage, filters]);
+
+// useEffect(() => {
+//   fetchSeverData();
+// }, [fetchSeverData]);
+
+// const DataList: TGyms[] = mainData?.data || [];
+// const totalPages = mainData?.totalPages || 0;
+
+// useEffect(() => {
+//   if (pathname === pageURL) {
+//     const queryParams: Record<string, string> = {
+//       page: currentPage.toString(),
+//     };
+
+//     if (filters.service) queryParams.service = filters.service;
+//     if (filters.location) queryParams.location = filters.location;
+//     if (filters.search) queryParams.search = filters.search;
+
+//     const queryString = new URLSearchParams(queryParams).toString();
+//     router.push(`${pathname}?${queryString}`);
+//   }
+// }, [currentPage, filters, pathname, router, totalPages]);
+
+// const handlePageChange = (page: number) => {
+//   setCurrentPage(page);
+// };
+
+// const handleFilterChange = (newFilters: {
+//   service?: string;
+//   location?: string;
+//   search?: string;
+// }) => {
+//   setFilters((prevFilters) => ({ ...prevFilters, ...newFilters }));
+//   setCurrentPage(1);
+// };

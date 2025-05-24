@@ -6,3 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const baseURL = "https://api.ker-active.com/v1";
+
+export const getInitials = (name: string) => {
+  return name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase())
+    .join("")
+    .slice(0, 2);
+};
