@@ -5,3 +5,8 @@ export * from "./scroll-to-top-button";
 export * from "./trainers";
 export * from "./gyms";
 export * from "./page-header";
+export * from "./gymItem";
+export * from "./paginatedList";
+export * from "./gym-skeleton";
+export * from "./trainer-skeleton";
+// export * from "./pagination-component";

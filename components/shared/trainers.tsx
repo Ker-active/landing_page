@@ -1,45 +1,69 @@
-import { baseURL } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
+"use client";
+import { cn } from "@/lib/utils";
+import type { TTrainer } from "@/types";
+import { usePathname } from "next/navigation";
+import { getTrainers } from "@/actions/trainers";
+import { PageHeader } from "./page-header";
+import { PaginationComponent } from "./pagination-component";
+import { TrainerItem } from "./trainerItem";
+import { usePaginatedData } from "@/hooks/usePaginatedData";
+import { useCallback } from "react";
+
+const pageURL: string = "/trainers";
 
 interface IProps {
   showAll?: boolean;
+  trainer?: TTrainer;
 }
 
-async function getData() {
-  const res = await fetch(`${baseURL}/user/trainers`);
-  console.log("status check", res.status);
-  if (!res.ok) {
-    throw new Error("Failed to fetch trainers");
-  }
-  return res.json();
-}
+export const Trainers = ({ showAll = false }: IProps) => {
+  const pathname = usePathname();
 
-export const Trainers = async ({ showAll = false }: IProps) => {
-  const data = await getData();
-  console.log(data);
+  const stableGetTrainers = useCallback(getTrainers, []);
+
+  const {
+    dataList,
+    totalPages,
+    currentPage,
+    handlePageChange,
+    handleFilterChange,
+    isLoading,
+    isFetching,
+  } = usePaginatedData<TTrainer>("/trainers", stableGetTrainers);
   return (
-    <ul className='grid grid-cols-auto-fit-four gap-x-[89px] gap-y-8 sm:gap-y-[100px]'>
-      {Array.from({ length: showAll ? 16 : 4 }).map((_, i) => (
-        <li key={i} className='flex items-center flex-col'>
-          <div className='w-full max-w-[250px] border-[7px] overflow-hidden border-green rounded-full h-[250px] relative'>
-            <Image
-              fill
-              src='https://avatars.githubusercontent.com/u/42998943?v=4'
-              alt='Trainers'
-            />
+    <>
+      {pathname === pageURL && (
+        <PageHeader
+          header="TRAINERS AND COACHES"
+          onFilterChange={handleFilterChange}
+        />
+      )}
+      <ul className="grid grid-cols-auto-fit-four gap-x-[89px] gap-y-8 sm:gap-y-[100px]">
+        {/* {(isLoading || isFetching) && (
+          <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
           </div>
-          <p className='text-[#344054] mt-[30px] sm:mt-[40px] leading-[24px] font-inter font-semibold  text-2xl'>
-            David Mark
-          </p>
-          <p className='text-[#667085] leading-[24px] font-inter  text-[19px]'>
-            Strength training, Cardio.
-          </p>
-          <Link className='underline text-base text-orange-950' href='/'>
-            View Profile
-          </Link>
-        </li>
-      ))}
-    </ul>
+        )} */}
+
+        {dataList.map((trainer, index) => {
+          if (!showAll && index >= 4) return null;
+          return (
+            <TrainerItem
+              trainer={trainer}
+              showAll={showAll}
+              className={cn(showAll && "h-[181px]")}
+              key={index}
+            />
+          );
+        })}
+      </ul>
+      {pathname === pageURL && totalPages > 1 && (
+        <PaginationComponent
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
+    </>
   );
 };
