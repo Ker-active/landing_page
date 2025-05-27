@@ -16,7 +16,7 @@ export async function getTrainers<T>({
 
     if (service) params.append("service", service);
     if (location) params.append("location", location);
-    if (search) params.append("location", search);
+    if (search) params.append("search", search);
 
     const res = await fetch(`${baseURL}/user/trainers?${params.toString()}`, {
       cache: "force-cache",
@@ -32,11 +32,3 @@ export async function getTrainers<T>({
     throw error;
   }
 }
-
-// async function getData(): Promise<{ data: any }> {
-//   const res = await fetch(`${baseURL}/user/trainers`, { cache: "force-cache" });
-//   if (!res.ok) {
-//     throw new Error("Failed to fetch trainers");
-//   }
-//   return res.json();
-// }

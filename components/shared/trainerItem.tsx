@@ -31,9 +31,9 @@ export const TrainerItem = ({ className, showAll, trainer }: IProps) => {
       <p className="text-[#344054] mt-[30px] sm:mt-[40px] leading-[24px] font-inter font-semibold text-2xl">
         {trainer.fullname}
       </p>
-      <p className="text-[#667085] leading-[24px] font-inter text-[19px]">
-        {/* {trainer.services?.join(", ") || ""} */}
-        Strength training, Cardio.
+      <p className="text-[#667085] leading-[24px] font-inter text-[19px] text-center py-3">
+        {trainer.services?.slice(0, 3).join(", ") || ""}
+        {/* Strength training, Cardio. */}
       </p>
       <Link
         className="underline text-base text-orange-950"

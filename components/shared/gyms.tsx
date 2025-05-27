@@ -38,7 +38,7 @@ export const Gyms = ({ showAll = false }: IProps) => {
         />
       )}
 
-      {isLoading && <GymSkeletonLoader showAll={showAll} />}
+      {/* {isLoading && <GymSkeletonLoader showAll={showAll} />} */}
 
       {!isLoading && (
         <ul
@@ -61,13 +61,13 @@ export const Gyms = ({ showAll = false }: IProps) => {
         </ul>
       )}
 
-      {pagePathnameUrl && totalPages > 1 && (
+      {/* {pagePathnameUrl && totalPages > 1 && (
         <PaginationComponent
           totalPages={totalPages}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
-      )}
+      )} */}
     </>
   );
 };

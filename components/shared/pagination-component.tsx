@@ -84,6 +84,3 @@ export const PaginationComponent: FC<PaginationProps> = ({
 };
 
 export default PaginationComponent;
-
-// const buttonClass =
-//   "bg-[#2D2C2A] border-white border text-off-white font-bricolage font-semibold text-[12px] rounded-full text-white py-2 px-2 rounded-full flex items-center gap-1 disabled:cursor-not-allowed";

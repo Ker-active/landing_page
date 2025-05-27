@@ -1,5 +1,6 @@
 "use client";
 
+import { IService, getServicesList, getLocationList } from "@/actions/services";
 import {
   Select,
   SelectContent,
@@ -10,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const buttonClass =
   "w-[84px] h-[37px] bg-[#2D2C2A] border-white border text-off-white font-bricolage font-semibold text-[12px] rounded-full";
@@ -25,9 +26,38 @@ interface PageHeaderProps {
 }
 
 export const PageHeader = ({ header, onFilterChange }: PageHeaderProps) => {
+  const [services, setServices] = useState<IService[]>([]);
+  const [locations, setLocations] = useState<IService[]>([]);
+
   const [service, setService] = useState("");
   const [location, setLocation] = useState("");
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const res = await getServicesList();
+        setServices(res.data);
+      } catch (error) {
+        console.error("Failed to fetch services:", error);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const res = await getLocationList();
+        setLocations(res.data);
+      } catch (error) {
+        console.error("Failed to fetch locations:", error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
 
   const handleFilterChange = () => {
     onFilterChange({ service, location, search });
@@ -43,10 +73,24 @@ export const PageHeader = ({ header, onFilterChange }: PageHeaderProps) => {
           <button className={buttonClass} onClick={handleFilterChange}>
             Filters
           </button>
+
+          {(service || location || search) && (
+            <button
+              className={cn(buttonClass, "bg-[#4A4A4A]")}
+              onClick={() => {
+                setService("");
+                setLocation("");
+                setSearch("");
+                onFilterChange({ service: "", location: "", search: "" });
+              }}
+            >
+              Reset
+            </button>
+          )}
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <Select onValueChange={(value) => setService(value)} value={service}>
+          <Select onValueChange={setService} value={service}>
             <SelectTrigger
               className={cn(buttonClass, "w-auto gap-1 bg-[#323232]")}
             >
@@ -55,12 +99,15 @@ export const PageHeader = ({ header, onFilterChange }: PageHeaderProps) => {
             <SelectContent className="bg-[#2D2C2A] text-off-white font-bricolage">
               <SelectGroup>
                 <SelectLabel className="text-[12px]">Service</SelectLabel>
-                <SelectItem value="yoga">Yoga</SelectItem>
-                <SelectItem value="gym">Gym</SelectItem>
-                <SelectItem value="crossfit">CrossFit</SelectItem>
+                {services.map((s) => (
+                  <SelectItem key={s._id} value={s.ServiceName}>
+                    {s.ServiceName}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
+
           <Select
             onValueChange={(value) => setLocation(value)}
             value={location}
@@ -73,12 +120,15 @@ export const PageHeader = ({ header, onFilterChange }: PageHeaderProps) => {
             <SelectContent className="bg-[#2D2C2A] text-off-white font-bricolage">
               <SelectGroup>
                 <SelectLabel className="text-[12px]">Location</SelectLabel>
-                <SelectItem value="new-york">New York</SelectItem>
-                <SelectItem value="los-angeles">Los Angeles</SelectItem>
-                <SelectItem value="chicago">Chicago</SelectItem>
+                {locations.map((loc) => (
+                  <SelectItem key={loc._id} value={loc.ServiceName}>
+                    {loc.ServiceName}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
+
           <input
             placeholder="Search"
             value={search}
