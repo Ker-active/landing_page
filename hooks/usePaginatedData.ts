@@ -40,6 +40,8 @@ export function usePaginatedData<T>(
         page: currentPage,
         ...filters,
       });
+      console.log(data);
+
       setMainData(data);
     } catch (error) {
       console.error("Failed to fetch server data:", error);
