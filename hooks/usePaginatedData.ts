@@ -1,7 +1,6 @@
 "use client";
 import { useState, useCallback, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { useGetParams } from "@/hooks/shared";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { TPaginationResponse } from "@/types";
 
 type FetchDataFunction<T> = (params: {
@@ -11,13 +10,24 @@ type FetchDataFunction<T> = (params: {
   search?: string;
 }) => Promise<TPaginationResponse<T>>;
 
+function useSafeSearchParams() {
+  const searchParams = useSearchParams();
+
+  return {
+    page: searchParams?.get("page") || "1",
+    service: searchParams?.get("service") || "",
+    location: searchParams?.get("location") || "",
+    search: searchParams?.get("search") || "",
+  };
+}
+
 export function usePaginatedData<T>(
   pageURL: string,
   fetchDataFunction: FetchDataFunction<T>
 ) {
   const pathname = usePathname();
   const router = useRouter();
-  const params = useGetParams();
+  const params = useSafeSearchParams();
 
   const currentPageFromURL =
     pathname === pageURL ? Number(params.page) || 1 : 1;
