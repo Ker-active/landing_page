@@ -1,5 +1,4 @@
 "use client";
-
 import { IService, getServicesList, getLocationList } from "@/actions/services";
 import {
   Select,
@@ -128,7 +127,6 @@ export const PageHeader = ({ header, onFilterChange }: PageHeaderProps) => {
               </SelectGroup>
             </SelectContent>
           </Select>
-
           <input
             placeholder="Search"
             value={search}

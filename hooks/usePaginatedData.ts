@@ -1,3 +1,4 @@
+"use client";
 import { useState, useCallback, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useGetParams } from "@/hooks/shared";

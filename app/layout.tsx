@@ -9,13 +9,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body
         className={`${inter.variable} ${bricolage.variable} ${anton.variable}`}
       >
         {children}
-                <Toaster />
-
+        <Toaster />
       </body>
     </html>
   );

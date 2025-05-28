@@ -1,3 +1,4 @@
+"use client";
 import { Footer, Nav, Trainers } from "@/components/shared";
 
 export default function TrainersPage() {

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 import { Footer, Nav, Gyms } from "@/components/shared";
