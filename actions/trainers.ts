@@ -14,7 +14,7 @@ export async function getTrainers<T>({
       limit: limit.toString(),
     });
 
-    if (service) params.append("service", service);
+    if (service) params.append("services", service);
     if (location) params.append("location", location);
     if (search) params.append("search", search);
 

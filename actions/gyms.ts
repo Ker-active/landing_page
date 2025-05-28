@@ -14,9 +14,9 @@ export async function getGyms<T>({
       limit: limit.toString(),
     });
 
-    if (service) params.append("service", service);
+    if (service) params.append("services", service);
     if (location) params.append("location", location);
-    if (search) params.append("location", search);
+    if (search) params.append("search", search);
 
     const res = await fetch(`${baseURL}/user/gyms?${params.toString()}`, {
       cache: "force-cache",
