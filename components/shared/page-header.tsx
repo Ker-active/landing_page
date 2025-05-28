@@ -127,7 +127,6 @@ export const PageHeader = ({ header, onFilterChange }: PageHeaderProps) => {
               </SelectGroup>
             </SelectContent>
           </Select>
-
           <input
             placeholder="Search"
             value={search}
