@@ -43,12 +43,16 @@ export default function HomePage() {
             </h1>
             <div className="flex flex-row gap-[20px] items-center">
               <ButtonComponent
-                onClick={() => window.open("https://ker-user.vercel.app")}
+                onClick={() =>
+                  window.open(process.env.NEXT_PUBLIC_TRAINER_SIGNUP_PAGE!)
+                }
                 hasIcon
                 text="CREATE ACCOUNT"
               />
               <ButtonComponent
-                onClick={() => window.open("https://ker-trainer.vercel.app")}
+                onClick={() =>
+                  window.open(process.env.NEXT_PUBLIC_TRAINER_LOGIN_PAGE!)
+                }
                 hasIcon
                 text="JOIN AS A TRAINER"
               />

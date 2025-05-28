@@ -41,10 +41,10 @@ const loginOptions = [
     label: "Login As User",
     url: process.env.NEXT_PUBLIC_USER_LOGIN_PAGE!,
   },
-  {
-    label: "Login As Gym",
-    url: process.env.NEXT_PUBLIC_GYM_LOGIN_PAGE!,
-  },
+  // {
+  //   label: "Login As Gym",
+  //   url: process.env.NEXT_PUBLIC_GYM_LOGIN_PAGE!,
+  // },
   {
     label: "Login As Trainer",
     url: process.env.NEXT_PUBLIC_TRAINER_LOGIN_PAGE!,

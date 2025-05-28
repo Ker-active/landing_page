@@ -35,13 +35,13 @@ export const TrainerItem = ({ className, showAll, trainer }: IProps) => {
         {trainer.services?.slice(0, 3).join(", ") || ""}
         {/* Strength training, Cardio. */}
       </p>
-      <Link
+      {/* <Link
         className="underline text-base text-orange-950"
-        // href={`/trainers/${trainer._id}`}
+        href={`/trainers/${trainer._id}`}
         href="/"
       >
         View Profile
-      </Link>
+      </Link> */}
     </li>
   );
 };
